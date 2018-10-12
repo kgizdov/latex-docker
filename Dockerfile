@@ -1,5 +1,5 @@
-# start with ArchLinux with base & base-devel
-FROM base/devel
+# start with ArchLinux with base only
+FROM base/archlinux
 
 # set maintaner label
 LABEL maintainer.name="Konstantin Gizdov"
@@ -25,14 +25,13 @@ RUN sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && pacman-key --init \
  && pacman-key --populate archlinux \
  && pacman -Sy \
- && pacman --noconfirm --needed -S git freetype2 \
  && pacman --noconfirm --needed -S xorg-mkfontscale xorg-mkfontdir ttf-liberation \
- && pacman --noconfirm --needed -S biber texlive-most texlive-fontsextra \
+ && pacman --noconfirm --needed -S biber ed ghostscript perl-tk psutils texlive-most texlive-fontsextra \
  && ln -s /etc/fonts/conf.avail/09-texlive-fonts.conf /etc/fonts/conf.d/09-texlive-fonts.conf \
  && fc-cache && mkfontscale && mkfontdir \
  && updmap-sys \
  && texhash \
- && pacman --noconfirm --needed -S texlive-fontsextra \
+ && pacman --noconfirm -S texlive-fontsextra \
  && rm -f /var/cache/pacman/pkg/* /var/lib/pacman/sync/* /etc/pacman.d/mirrorlist.pacnew
 
 # run bash at login
